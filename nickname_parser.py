@@ -10,7 +10,7 @@ where:
 import argparse
 import logging
 import re
-from typing import List
+from typing import List, Iterable
 
 
 def get_file_content(input_file_address: str) -> str:
@@ -21,14 +21,16 @@ def get_file_content(input_file_address: str) -> str:
     return text_str
 
 
-def parse_nickname(text_str: str) -> List[str]:
+def parse_nickname(text_str: str) -> set[str]:
     """Get string with all text. Return list of nicknames."""
     nickname_pattern = r'@[.\w]+'
 
-    return re.findall(nickname_pattern, text_str)
+    all_nicknames = re.findall(nickname_pattern, text_str)
+
+    return set(all_nicknames)
 
 
-def save_nicknames(nickname_list: List[str], output_file_address: str) -> None:
+def save_nicknames(nickname_list: Iterable[str], output_file_address: str) -> None:
     """Get list of all nicknames. Return a file with nicknames."""
     with open(output_file_address, 'w') as fd:
         for nickname in nickname_list:
